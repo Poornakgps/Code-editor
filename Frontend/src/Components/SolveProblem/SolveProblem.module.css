@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  margin-top: 4rem;
+  height: calc(100vh - 4rem);
+  overflow-y: hidden;
+}
+
+.leftBlock {
+  background-color: #f0f0f0;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.rightBlock {
+  background-color: #e0e0e0;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.separator {
+  cursor: ew-resize;
+  background-color: #ccc;
+  width: 5px;
+  height: 100%;
+}

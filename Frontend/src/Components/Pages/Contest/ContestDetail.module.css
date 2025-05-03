@@ -1,0 +1,138 @@
+.container {
+  font-family: Arial, sans-serif;
+  width: 100vw;
+  background-color: #1e1e1e;
+  box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+  margin-top: 4rem;
+  padding-bottom: 2rem;
+}
+
+.contWrap {
+  width: 80%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.subHeader {
+  font-size: 2.5rem;
+  color: #4a9eff;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  border-bottom: 2px solid #333;
+  padding-bottom: 0.5rem;
+  width: 100%;
+}
+
+.contestDetails {
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.contestDetails p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  color: #b3b3b3;
+}
+
+.tickingClock {
+  background-color: #3a3a3a;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.tickingClock p {
+  font-size: 1.4rem;
+  color: #4a9eff;
+  font-weight: bold;
+  margin: 0;
+}
+
+.problemTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.5rem;
+  table-layout: fixed;
+}
+
+.problemTable th,
+.problemTable td {
+  padding: 1rem;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.problemTable th {
+  background-color: #3a3a3a;
+  color: #ffffff;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.problemTable th,
+.problemTable td {
+  width: 70%;
+}
+
+.problemTable td {
+  background-color: #2a2a2a;
+  transition: background-color 0.3s ease;
+}
+
+.problemTable tr:hover td {
+  background-color: #333333;
+}
+
+.problemTitle {
+  color: #4a9eff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.problemTitle:hover {
+  color: #66b3ff;
+}
+
+.problemRating {
+  font-weight: bold;
+  color: #ffd700;
+}
+.problemTable th:first-child,
+.problemTable td:first-child {
+  width: 70%;
+}
+
+.problemTable th:last-child,
+.problemTable td:last-child {
+  width: 30%;
+}
+
+@media (max-width: 768px) {
+  .contWrap {
+    width: 95%;
+  }
+
+  .subHeader {
+    font-size: 2rem;
+  }
+
+  .contestDetails,
+  .problemTable th,
+  .problemTable td {
+    padding: 0.75rem;
+  }
+}

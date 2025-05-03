@@ -1,0 +1,78 @@
+.add-problem-container {
+    min-width: 100vw;
+    margin: 3rem auto;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .addProbWrap{
+    width:50vw;
+    color: white;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .problem-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+  }
+  
+  .form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  .submit-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .submit-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .submit-button.loading {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  .error {
+    color: #dc3545;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+  }
+  
+  .success {
+    color: #28a745;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+  }

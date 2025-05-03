@@ -1,0 +1,126 @@
+.problemPage {
+  margin-top: 4rem;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #121212; /* Dark background */
+  padding: 1.25rem;
+  box-sizing: border-box;
+}
+
+.sorting {
+  display: flex;
+  justify-content: flex-end; /* Align sorting dropdown to the right */
+  margin-bottom: 1rem;
+}
+
+.sorting label {
+  font-size: 1rem;
+  color: #e0e0e0; /* Light grey for the label */
+  margin-right: 0.5rem;
+}
+
+.sorting select {
+  background-color: #2a2a2a; /* Dark background for dropdown */
+  color: #e0e0e0; /* Light text color */
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sorting select:hover {
+  background-color: #3a3a3a; /* Slightly lighter on hover for feedback */
+}
+
+.problemContainer {
+  display: flex;
+  align-items: center;
+  background-color: #1e1e1e; /* Slightly lighter than the background for contrast */
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(255, 255, 255, 0.1); /* Lighter shadow for dark mode */
+  padding: 0.9375rem 1.25rem;
+  margin-bottom: 0.9375rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+.problemContainer:hover {
+  transform: translateY(-0.125rem);
+  background-color: #2a2a2a; /* Slightly lighter on hover for feedback */
+}
+
+.serialNumber {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #b0b0b0; /* Lighter grey for better visibility */
+  margin-right: 0.9375rem;
+  min-width: 1.875rem;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #ffffff; /* White for importance */
+  margin: 0;
+  flex-grow: 1;
+}
+
+.metaInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.9375rem;
+}
+
+.rating {
+  background-color: #3a3a3a; /* Dark background for rating */
+  color: #e0e0e0; /* Light text for contrast */
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.25em 0.5em;
+  border-radius: 0.75em;
+  white-space: nowrap;
+}
+
+.limit {
+  background-color: #2c2c2c; /* Slightly different background for limit */
+  color: #e0e0e0; /* Light text for contrast */
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.25em 0.5em;
+  border-radius: 0.75em;
+  white-space: nowrap;
+}
+
+@media (max-width: 48em) {
+  .problemContainer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .metaInfo {
+    margin-top: 0.625rem;
+    flex-wrap: wrap;
+  }
+
+  .title {
+    margin-bottom: 0.3125rem;
+  }
+
+  .sorting {
+    justify-content: center; /* Center the dropdown on smaller screens */
+  }
+}
+.addProblemButton {
+  margin-left: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.addProblemButton:hover {
+  background-color: #0056b3;
+}

@@ -1,0 +1,76 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+.env
+
+# Production build files
+/dist
+/build
+/Frontend/dist
+/Frontend/build
+
+# Docker-specific files
+docker-compose.override.yml
+
+# Runtime files
+Backend/Docker/code.cpp
+Backend/Docker/code.py
+Backend/Docker/code.js
+Backend/Docker/code.java
+Backend/Docker/code.go
+Backend/Docker/input.txt
+Backend/Docker/verdict.txt
+Backend/Docker/memorylimit.txt
+Backend/Docker/timelimit.txt
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.development
+.env.production
+
+# Editor directories and files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+
+# Testing
+/coverage
+.nyc_output
+
+# Logs
+logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Database dumps
+*.dump
+*.sql
+*.sqlite
+
+# Compiled output
+*.o
+*.out
+*.class
+
+# Misc
+.DS_Store
+Thumbs.db

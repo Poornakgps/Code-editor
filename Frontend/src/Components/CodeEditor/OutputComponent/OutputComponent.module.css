@@ -1,0 +1,22 @@
+.ioComp {
+  width: 48%;
+  color: white;
+  /* background-color: black; */
+}
+
+.ioTextArea, .ioPre {
+  min-width: 90%;
+  height: 100px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  background-color: black;
+  border-radius: 4px;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.ioPre {
+  /* background-color: white; */
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}

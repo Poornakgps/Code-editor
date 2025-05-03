@@ -1,0 +1,13 @@
+.ioCont {
+  width: 48%;
+}
+
+.ioTextArea {
+  min-width: 90%;
+  height: 100px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  resize: vertical;
+}

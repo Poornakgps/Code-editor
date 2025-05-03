@@ -1,0 +1,71 @@
+.codeEditorCont {
+  font-family: Arial, sans-serif;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: #1e1e1e;
+  box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.editControls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.selectInput {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 0.1rem solid #ccc;
+  border-radius: 0.25rem;
+  background-color: #1e1e1e;
+  cursor: pointer;
+}
+
+.selectInput:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.monacoEditor {
+  flex-grow: 1;
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+.ioContainer {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.runButton,
+.submitButton {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.runButton:hover,
+.submitButton:hover {
+  background-color: #0056b3;
+}
+
+.runButton:focus,
+.submitButton:focus {
+  outline: none;
+}
