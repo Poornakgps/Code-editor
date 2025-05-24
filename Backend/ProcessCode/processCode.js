@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const getOutput = require('./getOutput'); // Adjust the path as needed
-const axios = require('axios');
+const getOutput = require('./getOutput');
+const pool = require('../db');
+const query = require('../quaries');
 
 const processCode = async (req, res) => {
   const { language, code, input, problemId } = req.body;
@@ -37,8 +38,9 @@ const processCode = async (req, res) => {
   try {
     let problem;
     if (problemId) {
-      // Fetch problem details
-      problem = await axios.post('http://localhost:5001/api/problem_detail', { problem_id: problemId });
+      // Fetch problem details directly from database instead of HTTP call
+      const problemResult = await pool.query(query.getProblem, [problemId]);
+      problem = { data: problemResult.rows[0] };
 
       let memorylimit = problem.data.memorylimit;
       let timelimit = problem.data.timelimit;

@@ -36,7 +36,7 @@ Wait for Docker to do its thing. Frontend will be at `localhost:3000`, API at `l
 Create `.env`:
 ```
 DB_HOST=postgres
-DB_USER=chandu  
+DB_USER=test
 DB_PASSWORD=test@1234
 DB_NAME=postgres
 DB_PORT=5432
