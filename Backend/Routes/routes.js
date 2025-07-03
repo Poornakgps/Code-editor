@@ -8,7 +8,10 @@ const contestProblemList = require("../Controllers/contestProblemList.js")
 
 const router = Router();
 
-router.post("/run", processCode);
+router.post("/run", (req, res, next) => {
+  console.log('POST /run route hit with body:', req.body);
+  processCode(req, res, next);
+});
 router.post("/submitCode", processCode);
 router.post("/problem_detail", problem_detail);
 router.post("/addproblem", addProblem);

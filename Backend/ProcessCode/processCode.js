@@ -5,6 +5,7 @@ const pool = require('../db');
 const query = require('../quaries');
 
 const processCode = async (req, res) => {
+  console.log('processCode called with:', { language: req.body.language, codeLength: req.body.code?.length, problemId: req.body.problemId });
   const { language, code, input, problemId } = req.body;
 
   const inputFile = path.join(__dirname, '..', 'Docker', 'input.txt');
@@ -26,7 +27,7 @@ const processCode = async (req, res) => {
       codeFileName = path.join(__dirname, '..', 'Docker', 'code.js');
       break;
     case 'java':
-      codeFileName = path.join(__dirname, '..', 'Docker', 'code.java');
+      codeFileName = path.join(__dirname, '..', 'Docker', 'Main.java');
       break;
     case 'go':
       codeFileName = path.join(__dirname, '..', 'Docker', 'code.go');
@@ -65,8 +66,10 @@ const processCode = async (req, res) => {
       fs.writeFileSync(timeLimit, timelimit.toString());
     } else {
       // Set default limits
+      console.log('Setting default limits...');
       fs.writeFileSync(memoryLimit, '256');
       fs.writeFileSync(timeLimit, '5');
+      console.log('Default limits set. Files created:', { memoryLimit, timeLimit });
     }
 
     // Write the input data and code to the respective files
@@ -80,6 +83,8 @@ const processCode = async (req, res) => {
       path.join(__dirname, '..', 'Docker', 'code.py'),
       path.join(__dirname, '..', 'Docker', 'code.js'),
       path.join(__dirname, '..', 'Docker', 'code.java'),
+      path.join(__dirname, '..', 'Docker', 'Main.java'),
+      path.join(__dirname, '..', 'Docker', 'Main.class'),
       path.join(__dirname, '..', 'Docker', 'code.go')
     ];
     
@@ -90,7 +95,19 @@ const processCode = async (req, res) => {
     }
 
     // Write the new code file
-    fs.writeFileSync(codeFileName, code);
+    let finalCode = code;
+    
+    // For Java, ensure the class name matches the filename
+    if (language === 'java') {
+      // Replace any public class declaration with 'Main'
+      finalCode = code.replace(/public\s+class\s+\w+/g, 'public class Main');
+      // If no public class found, wrap the code in a Main class
+      if (!finalCode.includes('public class Main')) {
+        finalCode = `public class Main {\n    public static void main(String[] args) {\n${code}\n    }\n}`;
+      }
+    }
+    
+    fs.writeFileSync(codeFileName, finalCode);
 
     // Call getOutput function which handles compilation and execution
     const output = await getOutput(language);
@@ -114,14 +131,11 @@ const processCode = async (req, res) => {
       }
     }
     
-    // Clean up files
+    // Clean up files - Note: getOutput already handles cleanup of limit files
     try {
-      fs.writeFileSync(timeLimit, '');
-      fs.writeFileSync(memoryLimit, '');
-      fs.writeFileSync(verdictFile, '');
       fs.writeFileSync(inputFile, '');
     } catch (cleanupErr) {
-      console.error('Failed to clear file contents:', cleanupErr);
+      console.error('Failed to clear input file:', cleanupErr);
     }
 
     res.status(200).json(result);

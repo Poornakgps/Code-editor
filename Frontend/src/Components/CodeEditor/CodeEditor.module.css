@@ -1,71 +1,239 @@
 .codeEditorCont {
-  font-family: Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', sans-serif;
   width: 100%;
   margin: 0 auto;
-  padding: 1rem;
-  background-color: #1e1e1e;
-  box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  backdrop-filter: blur(20px);
+  border-radius: 1rem;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - 2rem);
+  max-width: 1400px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .editControls {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .selectInput {
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 0.1rem solid #ccc;
-  border-radius: 0.25rem;
-  background-color: #1e1e1e;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
   cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+  min-width: 120px;
+}
+
+.selectInput:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
 }
 
 .selectInput:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.selectInput option {
+  background: #1e293b;
+  color: #e2e8f0;
+  padding: 0.5rem;
 }
 
 .monacoEditor {
   flex-grow: 1;
-  border-radius: 0.25rem;
+  border-radius: 0.75rem;
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
 }
 
 .ioContainer {
   display: flex;
-  justify-content: space-evenly;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .ioContainer {
+    flex-direction: column;
+    gap: 1rem;
+  }
 }
 
 .buttonContainer {
   display: flex;
   justify-content: center;
-  gap: 3rem;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  flex-wrap: wrap;
 }
 
 .runButton,
 .submitButton {
-  padding: 0.5rem 1rem;
+  padding: 0.875rem 2rem;
   font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
   border: none;
-  border-radius: 0.25rem;
-  background-color: #007bff;
-  color: white;
+  border-radius: 0.75rem;
   cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  min-width: 120px;
+  backdrop-filter: blur(10px);
 }
 
-.runButton:hover,
+.runButton {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  box-shadow: 
+    0 4px 16px rgba(16, 185, 129, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.runButton:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 24px rgba(16, 185, 129, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.runButton:active {
+  transform: translateY(0);
+  transition: transform 0.1s;
+}
+
+.submitButton {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  box-shadow: 
+    0 4px 16px rgba(59, 130, 246, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
 .submitButton:hover {
-  background-color: #0056b3;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 24px rgba(59, 130, 246, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+  transition: transform 0.1s;
+}
+
+.runButton:disabled,
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
 }
 
 .runButton:focus,
 .submitButton:focus {
   outline: none;
+  box-shadow: 
+    0 0 0 3px rgba(59, 130, 246, 0.2),
+    0 4px 16px rgba(59, 130, 246, 0.3);
+}
+
+/* Loading state animations */
+.runButton:disabled::after,
+.submitButton:disabled::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid transparent;
+  border-top-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .codeEditorCont {
+    padding: 1rem;
+    height: calc(100vh - 1rem);
+    border-radius: 0.5rem;
+  }
+  
+  .editControls {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .selectInput {
+    width: 100%;
+  }
+  
+  .buttonContainer {
+    gap: 1rem;
+  }
+  
+  .runButton,
+  .submitButton {
+    flex: 1;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .codeEditorCont {
+    padding: 0.75rem;
+  }
+  
+  .buttonContainer {
+    flex-direction: column;
+  }
+  
+  .runButton,
+  .submitButton {
+    width: 100%;
+  }
 }

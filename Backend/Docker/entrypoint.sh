@@ -26,6 +26,9 @@ elif [ -f "code.py" ]; then
 elif [ -f "code.js" ]; then
   language="javascript"
   source_file="code.js"
+elif [ -f "Main.java" ]; then
+  language="java"
+  source_file="Main.java"
 elif [ -f "code.java" ]; then
   language="java"
   source_file="code.java"
@@ -70,7 +73,7 @@ case $language in
     
   javascript)
     # Run JavaScript code with Node.js
-    timeout "${timelimit}s" node $source_file < input.txt > verdict.txt 2>&1
+    timeout "${timelimit}s" node $source_file < input.txt >> verdict.txt 2>&1
     exit_code=$?
     if [ $exit_code -eq 124 ]; then
       echo "Time Limit Exceeded (${timelimit}s)" >> verdict.txt
@@ -83,8 +86,12 @@ case $language in
     # Compile Java code
     javac $source_file 2> verdict.txt
     if [ $? -eq 0 ]; then
-      # Find the class name (assuming it's the same as the file name without extension)
-      class_name=$(basename $source_file .java)
+      # Determine class name based on filename
+      if [ "$source_file" = "Main.java" ]; then
+        class_name="Main"
+      else
+        class_name=$(basename $source_file .java)
+      fi
       # Run the compiled Java program
       timeout "${timelimit}s" java -Xmx${memorylimit}m $class_name < input.txt >> verdict.txt 2>&1
       exit_code=$?
@@ -100,8 +107,9 @@ case $language in
     ;;
     
   go)
-    # Compile Go code
-    go build -o code_go $source_file 2> verdict.txt
+    # Compile Go code with optimizations for faster compilation
+    # Use faster compilation settings: disable optimizations and debug info
+    go build -ldflags="-s -w" -gcflags="-N -l" -trimpath -o code_go $source_file 2> verdict.txt
     if [ $? -eq 0 ]; then
       # Run the compiled Go program
       timeout "${timelimit}s" ./code_go < input.txt >> verdict.txt 2>&1

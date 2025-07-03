@@ -1,22 +1,99 @@
 .ioComp {
   width: 48%;
-  color: white;
-  /* background-color: black; */
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .ioTextArea, .ioPre {
-  min-width: 90%;
-  height: 100px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  background-color: black;
-  border-radius: 4px;
-  font-size: 14px;
+  width: 100%;
+  height: 120px;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 0.75rem;
+  font-size: 0.9rem;
+  font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
+  color: #e2e8f0;
   resize: vertical;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
 }
 
 .ioPre {
-  /* background-color: white; */
   white-space: pre-wrap;
   word-wrap: break-word;
+  overflow-y: auto;
+  line-height: 1.4;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.ioTextArea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 
+    0 0 0 3px rgba(59, 130, 246, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Scrollbar styling for webkit browsers */
+.ioPre::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ioPre::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+.ioPre::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.ioPre::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Different styles for different output types */
+.ioPre.success {
+  border-color: rgba(34, 197, 94, 0.3);
+  background: rgba(34, 197, 94, 0.05);
+}
+
+.ioPre.error {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.05);
+  color: #fca5a5;
+}
+
+.ioPre.warning {
+  border-color: rgba(245, 158, 11, 0.3);
+  background: rgba(245, 158, 11, 0.05);
+  color: #fbbf24;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .ioComp {
+    width: 100%;
+  }
+  
+  .ioTextArea, .ioPre {
+    height: 100px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ioTextArea, .ioPre {
+    height: 80px;
+    padding: 0.75rem;
+  }
 }

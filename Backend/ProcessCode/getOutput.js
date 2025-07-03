@@ -10,6 +10,11 @@ const getOutput = (language = 'cpp') => {
   const dockerDir = path.join(__dirname, '..', 'Docker');
 
   return new Promise((resolve, reject) => {
+    // Clear verdict file before execution
+    if (fs.existsSync(verdictFile)) {
+      fs.writeFileSync(verdictFile, '');
+    }
+
     let timelimit = '5';
     if (fs.existsSync(timelimitFile)) {
       const fileContent = fs.readFileSync(timelimitFile, 'utf8').trim();
@@ -34,73 +39,121 @@ const getOutput = (language = 'cpp') => {
       fs.writeFileSync(memorylimitFile, memorylimit);
     }
 
-    let sourceFile;
+    let sourceFile, imageName;
     switch (language) {
       case 'cpp':
         sourceFile = 'code.cpp';
+        imageName = 'cpp-sandbox';
         break;
       case 'python':
         sourceFile = 'code.py';
+        imageName = 'cpp-sandbox';
         break;
       case 'javascript':
         sourceFile = 'code.js';
+        imageName = 'cpp-sandbox';
         break;
       case 'java':
-        sourceFile = 'code.java';
+        sourceFile = 'Main.java';
+        imageName = 'cpp-sandbox';
         break;
       case 'go':
         sourceFile = 'code.go';
+        imageName = 'cpp-sandbox';
         break;
       default:
         return reject(new Error(`Unsupported language: ${language}`));
     }
 
-    const runCmd = `docker run --rm --cpus="1.0" --memory="${memorylimit}m" -v ${dockerDir}:/sandbox cpp-sandbox ${sourceFile}`;
+    // Improved Docker command with proper escaping and container naming
+    // Use host path for Docker-in-Docker volume mounting
+    const hostDockerDir = '/Users/poornachandradoddi/Documents/Projects/Code-editor/Code-editor/Backend/Docker';
+    const containerName = `code-exec-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const runCmd = `docker run --rm --name="${containerName}" -v "${hostDockerDir}:/sandbox" "${imageName}" "${sourceFile}"`;
 
-    exec(runCmd, { timeout: parseInt(timelimit) * 1000 }, (err) => {
-      try {
-        if (fs.existsSync(timelimitFile)) {
-          fs.unlinkSync(timelimitFile);
+    console.log(`Executing: ${runCmd}`);
+
+    exec(runCmd, { 
+      timeout: parseInt(timelimit) * 1000 + 2000, // Add 2 second buffer
+      maxBuffer: 1024 * 1024 // 1MB buffer
+    }, (err, stdout, stderr) => {
+      console.log('Docker execution result:');
+      console.log('Error:', err);
+      console.log('Stdout:', stdout);
+      console.log('Stderr:', stderr);
+      // Cleanup function
+      const cleanup = () => {
+        try {
+          if (fs.existsSync(timelimitFile)) {
+            fs.unlinkSync(timelimitFile);
+          }
+          if (fs.existsSync(memorylimitFile)) {
+            fs.unlinkSync(memorylimitFile);
+          }
+        } catch (cleanupErr) {
+          console.error('Failed to cleanup files:', cleanupErr);
         }
-        if (fs.existsSync(memorylimitFile)) {
-          fs.unlinkSync(memorylimitFile);
-        }
-      } catch (cleanupErr) {
-        console.error('Failed to delete files:', cleanupErr);
-      }
+      };
 
       if (err) {
-        if (err.killed) {
-          // Write "Time Limit Exceeded" to verdict.txt
-          fs.appendFileSync(verdictFile, "\nTime Limit Exceeded");
+        cleanup();
+        
+        if (err.killed || err.signal === 'SIGKILL' || err.code === 124) {
+          // Time Limit Exceeded
+          fs.writeFileSync(verdictFile, "Time Limit Exceeded");
           resolve({
             success: true,
             type: "TLE",
             output: "Time Limit Exceeded",
           });
         } else {
-          // Read error from verdict.txt
-          const verdictContent = fs.existsSync(verdictFile) 
-            ? fs.readFileSync(verdictFile, 'utf8') 
-            : 'Unknown error occurred';
+          // Read error from verdict.txt or use stderr
+          let errorOutput = '';
+          if (fs.existsSync(verdictFile)) {
+            errorOutput = fs.readFileSync(verdictFile, 'utf8');
+          }
+          if (!errorOutput && stderr) {
+            errorOutput = stderr;
+          }
+          if (!errorOutput && stdout) {
+            errorOutput = stdout;
+          }
+          if (!errorOutput) {
+            errorOutput = err.message || 'Unknown error occurred';
+          }
           
           // Determine if it's a compilation error or runtime error
-          const isCompilationError = verdictContent.includes('Compilation failed') || 
-                                    (language === 'cpp' && (verdictContent.includes('error:') || verdictContent.includes('undefined reference'))) ||
-                                    (language === 'java' && verdictContent.includes('error:')) ||
-                                    (language === 'go' && verdictContent.includes('cannot find package'));
+          const isCompilationError = errorOutput.includes('Compilation failed') || 
+                                    errorOutput.includes('compilation terminated') ||
+                                    (language === 'cpp' && (errorOutput.includes('error:') || errorOutput.includes('undefined reference'))) ||
+                                    (language === 'java' && errorOutput.includes('error:')) ||
+                                    (language === 'python' && errorOutput.includes('SyntaxError')) ||
+                                    (language === 'go' && errorOutput.includes('cannot find package')) ||
+                                    errorOutput.includes('No such file or directory');
           
           resolve({
             success: true,
             type: isCompilationError ? "CE" : "RE",
-            output: verdictContent,
+            output: errorOutput.trim(),
           });
         }
       } else {
+        cleanup();
+        
         // Read the final output from verdict.txt
-        const finalOutput = fs.existsSync(verdictFile) 
-          ? fs.readFileSync(verdictFile, 'utf8') 
-          : 'No output';
+        let finalOutput = '';
+        if (fs.existsSync(verdictFile)) {
+          finalOutput = fs.readFileSync(verdictFile, 'utf8');
+        }
+        
+        // If verdict.txt is empty, use stdout
+        if (!finalOutput.trim() && stdout) {
+          finalOutput = stdout.trim();
+        }
+        
+        if (!finalOutput.trim()) {
+          finalOutput = 'No output';
+        }
 
         resolve({
           success: true,
